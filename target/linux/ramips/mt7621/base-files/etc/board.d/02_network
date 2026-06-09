@@ -196,6 +196,10 @@ ramips_setup_interfaces()
 	ruijie,rg-ew1300g-v1)
 		ucidef_set_interfaces_lan_wan "lan3 lan2 lan1" "wan"
 		;;
+	dragonglass,dgx25|\
+	dragonglass,dgx25-nand)
+		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4" "wan"
+		;;
 	*)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4" "wan"
 		;;
@@ -322,6 +326,12 @@ ramips_setup_macs()
 	yuncore,ax820)
 		label_mac=$(mtd_get_mac_binary Factory 0x4)
 		;;
+	dragonglass,dgx25|\
+	dragonglass,dgx25-nand)
+		label_mac=$(mtd_get_mac_binary factory 0x2a)
+		wan_mac=$(mtd_get_mac_binary factory 0x24)
+		;;
+
 	esac
 
 	[ -n "$lan_mac" ] && ucidef_set_interface_macaddr "lan" $lan_mac
